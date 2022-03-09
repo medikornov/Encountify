@@ -19,7 +19,10 @@ using EncountifyAPI.Middleware;
 using EncountifyAPI.Controllers;
 using EncountifyAPI.Aspects;
 using EncountifyAPI.Interfaces;
-
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using EncountifyAPI.Repositories;
 
 namespace EncountifyAPI
 {
@@ -44,6 +47,29 @@ namespace EncountifyAPI
             Log.Information("NEW LOGGING SESSION");
             Log.Information("-------------------------------------------------------------------");
 
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(o =>
+            {
+                var Key = Encoding.UTF8.GetBytes(Configuration["JWT:Key"]);
+                o.SaveToken = true;
+                o.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["JWT:Issuer"],
+                    ValidAudience = Configuration["JWT:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Key)
+                };
+            });
+
+            services.AddSingleton<IJWTManagerRepository, JWTManagerRepository>();
+
+            services.AddControllers();
             services.AddControllers();
             services.AddSwaggerGen(options =>
             {
