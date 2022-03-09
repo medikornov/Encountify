@@ -4,6 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encountify.Android", "Encountify.Android\Encountify.Android.csproj", "{90B755D4-C524-4E9B-9E31-A7203663E394}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A6630543-D7F5-4CD3-A3CC-C0640DA1BD80} = {A6630543-D7F5-4CD3-A3CC-C0640DA1BD80}
+		{7DCA0B62-9C74-4D11-B52C-24CE5C2FEDEB} = {7DCA0B62-9C74-4D11-B52C-24CE5C2FEDEB}
+		{B60F44D0-9A07-40F7-9956-F170D19C5D24} = {B60F44D0-9A07-40F7-9956-F170D19C5D24}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encountify.iOS", "Encountify.iOS\Encountify.iOS.csproj", "{7DCA0B62-9C74-4D11-B52C-24CE5C2FEDEB}"
 EndProject
