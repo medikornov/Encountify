@@ -35,6 +35,7 @@ namespace Encountify.Views
         private async void OnLoginClicked(object sender, EventArgs e)
         {
             var users = await DataStore.GetAllAsync(true);
+            var login = await DataStore.AuthorizeAsync(Username.Text, Password.Text);
 
             try
             {
