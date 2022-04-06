@@ -5,10 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using EncountifyAPI.Models;
 using EncountifyAPI.Interfaces;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EncountifyAPI.Controllers
 {
     [Route("API/[controller]")]
+    [Authorize]
     [ApiController]
     public class LocationsController : ControllerBase
     {

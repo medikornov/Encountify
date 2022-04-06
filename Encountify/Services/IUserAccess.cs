@@ -12,5 +12,6 @@ namespace Encountify.Services
         Task<int> DeleteAllAsync();
         Task<User> GetAsync(int id);
         Task<IEnumerable<User>> GetAllAsync(bool forceRefresh = false);
+        Task<Token> AuthorizeAsync(string email, string password);
     }
 }

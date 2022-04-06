@@ -11,9 +11,10 @@ using EncountifyAPI.Repositories;
 
 namespace EncountifyAPI.Controllers
 {
-    [Authorize]
     [Route("API/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class UsersController : ControllerBase
     {
         private readonly string _connectionString;

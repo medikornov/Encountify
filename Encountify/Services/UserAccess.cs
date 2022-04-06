@@ -16,10 +16,9 @@ namespace Encountify.Services
 {
     public class UserAccess : IUserAccess
     {
+        private static readonly string url = "https://encountify.azurewebsites.net/API/Users";
         public async Task<bool> AddAsync(User user)
         {
-            const string url = "https://encountify.azurewebsites.net/API/Users";
-
             HttpClient client = new HttpClient();
             client.Timeout = TimeSpan.FromSeconds(10);
 
@@ -55,11 +54,11 @@ namespace Encountify.Services
 
         public async Task<bool> DeleteAsync(int id)
         {
-            string url = "https://encountify.azurewebsites.net/API/Users" + id.ToString();
+            string modifiedUrl = url + id.ToString();
             HttpClient client = new HttpClient();
             client.Timeout = TimeSpan.FromSeconds(10);
 
-            var response = await client.DeleteAsync(url);
+            var response = await client.DeleteAsync(modifiedUrl);
             if (response.IsSuccessStatusCode)
             {
                 return true;
@@ -75,7 +74,7 @@ namespace Encountify.Services
             HttpClient client = new HttpClient();
             client.Timeout = TimeSpan.FromSeconds(10);
 
-            var response = await client.DeleteAsync("https://encountify.azurewebsites.net/API/Users");
+            var response = await client.DeleteAsync(url);
 
             if (response.IsSuccessStatusCode)
             {
@@ -94,7 +93,7 @@ namespace Encountify.Services
             HttpClient client = new HttpClient();
             client.Timeout = TimeSpan.FromSeconds(10);
 
-            var response = client.GetAsync("https://encountify.azurewebsites.net/API/Users/Id/" + id.ToString()).Result;
+            var response = client.GetAsync(url + "/Id/" + id.ToString()).Result;
 
             if (response.IsSuccessStatusCode)
             {
@@ -118,7 +117,7 @@ namespace Encountify.Services
             try
             {
                 // here application freezes when entering scoreboard tab
-                response = await client.GetAsync("https://encountify.azurewebsites.net/API/Users").ConfigureAwait(false);
+                response = await client.GetAsync(url).ConfigureAwait(false);
             }
             catch(Exception e)
             {
@@ -129,6 +128,39 @@ namespace Encountify.Services
             {
                 var result = response.Content.ReadAsStringAsync().Result;
                 IEnumerable<User> obj = JsonConvert.DeserializeObject<IEnumerable<User>>(result);
+                return obj;
+            }
+            else
+            {
+                return null;
+            }
+        }   
+        public async Task<Token> AuthorizeAsync(string username, string password)
+        {
+            HttpClientHandler clientHandler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
+            };
+            HttpClient client = new HttpClient(clientHandler);
+            client.Timeout = TimeSpan.FromSeconds(20);
+            HttpResponseMessage response = null;
+            string dataJson = JsonConvert.SerializeObject(new { username = username, password = password });
+            string urlnx = "https://localhost:9999/API/Users/authenticate";
+            try
+            {
+                // here application freezes when entering scoreboard tab
+                response = await client.PostAsync(urlnx, new StringContent(dataJson)).ConfigureAwait(true);
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+            }
+
+            if ((response != null) && (response.IsSuccessStatusCode))
+            {
+                var result = response.Content.ReadAsStringAsync().Result;
+                Token obj = JsonConvert.DeserializeObject<Token>(result);
                 return obj;
             }
             else
