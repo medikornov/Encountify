@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <Shell
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Encountify.Views"
-    x:Class="Encountify.AppShell"
+    x:Class="Encountify.AdminShell"
     Title="Encountify">
 
     <FlyoutItem
@@ -68,17 +68,17 @@
     </FlyoutItem>
 
     <FlyoutItem
-        Title="Achievments">
-        <ShellContent
-            Route="AchievmentsPage"
-            ContentTemplate="{DataTemplate local:AchievmentsPage}"/>
-    </FlyoutItem>
-
-    <FlyoutItem
         Title="Profile">
         <ShellContent
             Route="ProfilePage"
             ContentTemplate="{DataTemplate local:ProfilePage}"/>
+    </FlyoutItem>
+
+    <FlyoutItem
+        Title="Admin">
+        <ShellContent
+            Route="AdminPage"
+            ContentTemplate="{DataTemplate local:AdminPage}"/>
     </FlyoutItem>
 
     <MenuItem
