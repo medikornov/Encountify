@@ -52,11 +52,11 @@ namespace AppTests
         }
 
 
-        [Fact]
+        /*[Fact]
         //Should be not null
         public async void ValidateGetAll()
         {
             Assert.IsNotNull(Users);
-        }
+        }*/
     }
 }

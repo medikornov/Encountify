@@ -6,20 +6,26 @@ using EncountifyAPI.Models;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using EncountifyAPI.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using EncountifyAPI.Repositories;
 
 namespace EncountifyAPI.Controllers
 {
     [Route("API/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class UsersController : ControllerBase
     {
         private readonly string _connectionString;
         private readonly IUserHandlerExecutables _userHandling;
+        private readonly IJWTManagerRepository _jWTManager;
 
-        public UsersController(IConfiguration configuration, IUserHandlerExecutables userHandling)
+        public UsersController(IConfiguration configuration, IUserHandlerExecutables userHandling, IJWTManagerRepository jWTManager)
         {
             _connectionString = configuration.GetConnectionString("EncountifyAPIContext");
             _userHandling = userHandling;
+            _jWTManager = jWTManager;
         }
 
         /// <summary>
@@ -145,6 +151,21 @@ namespace EncountifyAPI.Controllers
         {
             _userHandling.ExecuteUserReader(_connectionString, "DELETE FROM Users WHERE Id = @id", id);
             return GetUser(id);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("authenticate")]
+        public IActionResult Authenticate(UserLogin usersdata)
+        {
+            var token = _jWTManager.Authenticate(usersdata);
+
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+
+            return Ok(token);
         }
     }
 }

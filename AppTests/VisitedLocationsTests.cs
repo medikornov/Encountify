@@ -18,12 +18,12 @@ namespace AppTests
             visitedLocations = new VisitedLocationAccess();
         }
 
-        [Fact]
+        /*[Fact]
         public async void ValidateGetAll()
         {
             var locations = await visitedLocations.GetAllAsync();
 
             Assert.NotNull(locations);
-        }
+        }*/
     }
 }

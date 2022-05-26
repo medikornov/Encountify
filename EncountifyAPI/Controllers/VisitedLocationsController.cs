@@ -6,10 +6,12 @@ using EncountifyAPI.Models;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using EncountifyAPI.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EncountifyAPI.Controllers
 {
     [Route("API/[controller]")]
+    [Authorize]
     [ApiController]
     public class VisitedLocationsController : ControllerBase
     {

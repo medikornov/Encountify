@@ -1,5 +1,6 @@
 ﻿using EncountifyAPI.Interfaces;
 using EncountifyAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -12,6 +13,7 @@ namespace EncountifyAPI.Controllers
 {
     [Route("API/[controller]")]
     [ApiController]
+    [Authorize]
     public class AssignedAchievmentsController : ControllerBase
     {
         private readonly string ConnectionString;
